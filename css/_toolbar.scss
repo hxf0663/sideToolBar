@@ -1,0 +1,272 @@
+/*背景图方式*/
+/*
+@mixin toolbar-item($pos, $hoverPos){
+	background-position: 0 $pos;
+	&:hover{
+		background-position: 0 $hoverPos;
+	}
+}
+
+$toolbar-size: 66px;
+
+.toolbar-item, .toolbar-layer{
+	background-image: url(../img/toolbar.png);
+	background-repeat: none;
+}
+.toolbar{
+	position: fixed;
+	left: 50%;
+	bottom: 5px;
+	margin-left: -$toolbar-size / 2;
+}
+.toolbar-item{
+	position: relative;
+	display: block;
+	width: $toolbar-size;
+	height: $toolbar-size;
+	margin-top: 1px;
+	@include transition(background-position 1s);
+	&:hover{
+		.toolbar-layer{
+			@include opacity(1);
+			@include scale(1);
+		}
+	}
+}
+.toolbar-item-weixin{
+	@include toolbar-item(-1002px, -1077px);
+	.toolbar-layer{
+		background-position: 0 0;
+	}
+}
+.toolbar-item-feedback{
+	@include toolbar-item(-547px, -622px);
+}
+.toolbar-item-app{
+	@include toolbar-item(-697px, -775px);
+	.toolbar-layer{
+		background-position: 0 -269px;
+	}
+}
+.toolbar-item-top{
+	@include toolbar-item(-852px, -927px);
+}
+.toolbar-layer{
+	position: absolute;
+	right: $toolbar-size - 6;
+	bottom: -6px;
+	width: 237px;
+	height: 256px;
+	@include opacity(0);
+	@include transform-origin(95% 95%);
+	@include scale(0.01);
+	@include transition(all 1s);
+}
+*/
+
+/*图标字体方式*/
+/*
+$toolbar-size: 66px;
+
+.toolbar-item, .toolbar-btn, .toolbar-icon, .toolbar-text{
+	width: $toolbar-size;
+	height: $toolbar-size;
+}
+.toolbar-icon, .toolbar-text{
+	position: absolute;
+	left: 0;
+	color: #fff;
+	text-align: center;
+	@include transition(top 1s);
+}
+
+.toolbar{
+	position: fixed;
+	left: 50%;
+	bottom: 5px;
+	margin-left: -$toolbar-size / 2;
+}
+.toolbar-item{
+	position: relative;
+	display: block;
+	margin-top: 1px;
+
+	&:hover{
+		.toolbar-icon{
+			top: -$toolbar-size;
+		}
+		.toolbar-text{
+			top: 0;
+		}
+		.toolbar-layer{
+			@include opacity(1);
+			@include scale(1);
+		}
+	}
+}
+.toolbar-btn{
+	position: absolute;
+	left: 0;
+	top: 0;
+	overflow: hidden;
+}
+.toolbar-icon{
+	top: 0;
+	background-color: #d0d6d9;
+	font-size: 30px;
+	line-height: $toolbar-size;
+}
+.toolbar-text{
+	top: $toolbar-size;
+	background-color: #98a1a6;
+	padding-top: 14px;
+	font-size: 18px;
+	line-height: 1.2;
+}
+.toolbar-layer{
+	position: absolute;
+	right: $toolbar-size - 6;
+	bottom: -6px;
+	width: 237px;
+	height: 256px;
+	background-image: url(../img/toolbar.png);
+	background-repeat: none;
+	@include opacity(0);
+	@include transform-origin(95% 95%);
+	@include scale(0.01);
+	@include transition(all 1s);
+}
+.toolbar-layer-weixin{
+	background-position: 0 0;
+}
+.toolbar-layer-app{
+	background-position: 0 -269px;
+}
+*/
+
+/*图标字体+before/after伪类方式*/
+$toolbar-size: 66px;
+
+.toolbar{
+	position: fixed;
+	left: 50%;
+	bottom: 5px;
+	margin-left: -$toolbar-size / 2;
+}
+.toolbar-item{
+	position: relative;
+	display: block;
+	width: $toolbar-size;
+	height: $toolbar-size;
+	margin-top: 1px;
+
+	&:hover{
+		.toolbar-btn{
+			&:before{
+				top: -$toolbar-size;
+			}
+			&:after{
+				top: 0;
+			}
+		}
+	}
+
+}
+.toolbar-item-weixin, .toolbar-item-app{
+	&:after{
+		content: "";
+		position: absolute;
+		right: $toolbar-size - 6;
+		bottom: -6px;
+		width: 237px;
+		height: 256px;
+		background-image: url(../img/toolbar.png);
+		background-repeat: none;
+		@include opacity(0);
+		@include transform-origin(95% 95%);
+		@include scale(0.01);
+		@include transition(all 1s);
+	}
+	&:hover{
+		&:after{
+			@include opacity(1);
+			@include scale(1);
+		}
+	}
+}
+.toolbar-item-weixin{
+	&:after{
+		content: "";
+		background-position: 0 0;
+	}
+
+	.toolbar-btn{
+		@extend .icon-wechat;
+		&:after{
+			content: "公众\A账号";
+		}
+	}
+}
+.toolbar-item-feedback{
+	.toolbar-btn{
+		@extend .icon-chat;
+		&:after{
+			content: "意见\A反馈";
+		}
+	}
+}
+.toolbar-item-app{
+	&:after{
+		content: "";
+		background-position: 0 -269px;
+	}
+
+	.toolbar-btn{
+		@extend .icon-mobile;
+		&:after{
+			content: "APP\A下载";
+		}
+	}
+}
+.toolbar-item-top{
+	.toolbar-btn{
+		@extend .icon-arrow-up2;
+		&:after{
+			content: "返回\A顶部";
+		}
+	}
+}
+.toolbar-btn{
+	&, &:before, &:after{
+		width: $toolbar-size;
+		height: $toolbar-size;
+		position: absolute;
+		left: 0;
+	}
+	&:before, &:after{
+		content: "";
+		color: #fff;
+		text-align: center;
+		@include transition(top 1s);
+	}
+
+	top: 0;
+	overflow: hidden;
+
+	@extend [class^="icon-"];
+
+	&:before{ //icon
+		top: 0;
+		background-color: #d0d6d9;
+		font-size: 30px;
+		line-height: $toolbar-size;
+	}
+	&:after{ //text
+		top: $toolbar-size;
+		background-color: #98a1a6;
+		padding-top: 14px;
+		font-size: 18px;
+		line-height: 1.2;
+		white-space: pre;
+	}
+}
